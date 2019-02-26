@@ -25,7 +25,7 @@ public class Unit : MonoBehaviour
     [SerializeField]
     private Vector2Int m_Position;
     public Vector2Int position { get { return m_Position; } set { m_Position = value; transform.position = board.GetUnitWorldSpacePosition(this); } }
-
+    
     private void Start()
     {
         transform.position = board.GetUnitWorldSpacePosition(this);

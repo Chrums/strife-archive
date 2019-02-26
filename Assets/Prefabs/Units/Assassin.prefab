@@ -39,6 +39,21 @@ PrefabInstance:
       propertyPath: m_Name
       value: Assassin
       objectReference: {fileID: 0}
+    - target: {fileID: 5192990678530228389, guid: 6e1bd0b20e04a1f479cd98f6ef882e1b,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5192990678530228389, guid: 6e1bd0b20e04a1f479cd98f6ef882e1b,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5192990678530228389, guid: 6e1bd0b20e04a1f479cd98f6ef882e1b,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6528344779588845531, guid: 6e1bd0b20e04a1f479cd98f6ef882e1b,
         type: 3}
       propertyPath: m_LocalPosition.x

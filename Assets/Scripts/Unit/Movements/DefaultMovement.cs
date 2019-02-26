@@ -20,9 +20,19 @@ public class DefaultMovement : MovementAction
         Unit target = unit.board.GetNearestEnemyUnit(unit);
         if (Vector2.Distance(unit.position, target.position) > m_AttackAction.range)
         {
-            Vector2Int targetPosition = new Vector2Int(unit.position.x - 1, unit.position.y);
+            int x = unit.position.x < target.position.x
+                ? 1
+                : unit.position.x > target.position.x
+                ? -1
+                : 0;
+            int y = unit.position.y < target.position.y
+                ? 1
+                : unit.position.y > target.position.y
+                ? -1
+                : 0;
+            Vector2Int targetPosition = new Vector2Int(unit.position.x + x, unit.position.y + y);
             Debug.Log(string.Format("{0} moving to {1}", unit, targetPosition));
-            unit.position = targetPosition;
+            if (!unit.board.IsPositionOccupied(targetPosition)) unit.position = targetPosition;
         }
     }
 

@@ -10,7 +10,7 @@ public class DefaultAttack : AttackAction
         Unit target = unit.board.GetNearestEnemyUnit(unit);
         if (target != null)
         {
-            Debug.Log(string.Format("{0} attacking {1}!", unit, target));
+            Debug.Log(string.Format("{0} attacking {1}", unit, target));
             yield return new WaitForSeconds(2.0f);
             unit.onDamageDealt?.Invoke(Random.Range(2, 5));
         }
