@@ -59,7 +59,7 @@ public class Board : MonoBehaviour
 
     public bool IsPositionOccupied(Vector2Int position)
     {
-        return m_Units.Aggregate(false, (bool isOccupied, Unit unit) => isOccupied || unit.position == position || unit.targetPosition == position);
+        return m_Units.Aggregate(false, (bool isOccupied, Unit unit) => isOccupied || unit.position == position);
     }
 
     public Vector2 GetUnitBoardSpacePosition(Unit unit)
