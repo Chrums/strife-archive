@@ -5,6 +5,15 @@ using UnityEngine;
 public class FireballAbility : AbilityAction
 {
 
+    private enum State
+    {
+        Inactive,
+        Active,
+        Complete
+    }
+
+    private State m_State = State.Inactive;
+
     private void Start()
     {
         unit.onDamageDealt += OnDamageDealt;
@@ -21,15 +30,29 @@ public class FireballAbility : AbilityAction
         charge += amount;
     }
 
-    public override IEnumerator Run()
+    public override bool Run()
     {
-        Unit target = unit.board.GetFurthestEnemyUnit(unit);
-        if (target != null)
+
+        if (m_State == State.Inactive)
         {
-            charge -= cost;
-            Debug.Log(string.Format("{0} casting fireball on {1}", unit, target));
-            yield return new WaitForSeconds(1.0f);
+            Unit target = unit.board.GetFurthestEnemyUnit(unit);
+            if (target != null)
+            {
+                m_State = State.Active;
+                StartCoroutine(Cast(target));
+            }
         }
+
+        return m_State == State.Complete;
+
+    }
+
+    public IEnumerator Cast(Unit target)
+    {
+        charge -= cost;
+        Debug.Log(string.Format("{0} casting fireball on {1}", unit, target));
+        yield return new WaitForSeconds(1.0f);
+        m_State = State.Complete;
     }
 
 }

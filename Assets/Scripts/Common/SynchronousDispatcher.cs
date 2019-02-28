@@ -2,29 +2,29 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DispatcherV2 : MonoBehaviour
+public class SynchronousDispatcher : MonoBehaviour
 {
 
-    private DispatchableV2 m_Active = null;
-    private SortedDictionary<float, List<DispatchableV2>> m_Dispatchables = new SortedDictionary<float, List<DispatchableV2>>();
+    private SynchronousDispatchable m_Active = null;
+    private SortedDictionary<float, List<SynchronousDispatchable>> m_Dispatchables = new SortedDictionary<float, List<SynchronousDispatchable>>();
     
     private void Update()
     {
 
         if (m_Active != null)
-            if (!m_Active.Run())
+            if (m_Active.Run())
                 m_Active = null;
 
         Dispatch();
 
     }
 
-    public void Register(float priority, DispatchableV2 dispatchable)
+    public void Register(float priority, SynchronousDispatchable dispatchable)
     {
-        List<DispatchableV2> dispatchables;
+        List<SynchronousDispatchable> dispatchables;
         if (!m_Dispatchables.TryGetValue(priority, out dispatchables))
         {
-            dispatchables = new List<DispatchableV2>();
+            dispatchables = new List<SynchronousDispatchable>();
             m_Dispatchables[priority] = dispatchables;
         }
         dispatchables.Add(dispatchable);
@@ -32,8 +32,8 @@ public class DispatcherV2 : MonoBehaviour
 
     private void Dispatch()
     {
-        foreach (KeyValuePair<float, List<DispatchableV2>> priority in m_Dispatchables)
-            foreach (DispatchableV2 dispatchable in priority.Value)
+        foreach (KeyValuePair<float, List<SynchronousDispatchable>> priority in m_Dispatchables)
+            foreach (SynchronousDispatchable dispatchable in priority.Value)
                 if (dispatchable.Query())
                 {
                     if (m_Active == null)

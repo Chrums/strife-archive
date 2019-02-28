@@ -22,9 +22,9 @@ public abstract class AbilityAction : UnitAction
         return m_Charge > m_Cost;
     }
 
-    public override IEnumerator Run()
+    public override bool Run()
     {
-        yield return null;
+        return false;
     }
 
 }

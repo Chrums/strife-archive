@@ -2,7 +2,7 @@
 using System.Collections;
 
 [RequireComponent(typeof(Unit))]
-public abstract class UnitAction : Dispatchable
+public abstract class UnitAction : SynchronousDispatchable
 {
 
     private Unit m_Unit;
