@@ -14,9 +14,8 @@ public class DefaultMovement : MovementAction
         m_AttackAction = GetComponent<AttackAction>();
     }
 
-    public override IEnumerator Run()
+    private void Update()
     {
-        yield return new WaitForSeconds(1.0f);
         Unit target = unit.board.GetNearestEnemyUnit(unit);
         if (Vector2.Distance(unit.position, target.position) > m_AttackAction.range)
         {
@@ -34,6 +33,7 @@ public class DefaultMovement : MovementAction
             Debug.Log(string.Format("{0} moving to {1}", unit, targetPosition));
             if (!unit.board.IsPositionOccupied(targetPosition)) unit.position = targetPosition;
         }
+        Yield();
     }
 
 }

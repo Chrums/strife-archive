@@ -23,14 +23,20 @@ public abstract class SynchronousDispatchable : MonoBehaviour
         return false;
     }
 
-    public virtual bool Run()
-    {
-        return true;
-    }
+    public virtual void Activate()
+    { }
+
+    public virtual void Deactivate()
+    { }
 
     public virtual bool Interrupt(SynchronousDispatchable dispatchable)
     {
         return false;
+    }
+
+    protected void Yield()
+    {
+        m_Dispatcher.Yield(this);
     }
 
 }

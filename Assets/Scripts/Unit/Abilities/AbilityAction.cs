@@ -22,9 +22,4 @@ public abstract class AbilityAction : UnitAction
         return m_Charge > m_Cost;
     }
 
-    public override bool Run()
-    {
-        return false;
-    }
-
 }

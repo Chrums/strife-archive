@@ -10,13 +10,7 @@ public class SynchronousDispatcher : MonoBehaviour
     
     private void Update()
     {
-
-        if (m_Active != null)
-            if (m_Active.Run())
-                m_Active = null;
-
         Dispatch();
-
     }
 
     public void Register(float priority, SynchronousDispatchable dispatchable)
@@ -28,6 +22,7 @@ public class SynchronousDispatcher : MonoBehaviour
             m_Dispatchables[priority] = dispatchables;
         }
         dispatchables.Add(dispatchable);
+        dispatchable.enabled = false;
     }
 
     private void Dispatch()
@@ -37,10 +32,38 @@ public class SynchronousDispatcher : MonoBehaviour
                 if (dispatchable.Query())
                 {
                     if (m_Active == null)
-                        m_Active = dispatchable;
+                        Activate(dispatchable);
                     else if (m_Active.Interrupt(dispatchable))
-                        m_Active = dispatchable;
+                    {
+                        Deactivate();
+                        Activate(dispatchable);
+                    }
                 }
+    }
+
+    private void Activate(SynchronousDispatchable dispatchable)
+    {
+        if (m_Active == null)
+        {
+            m_Active = dispatchable;
+            m_Active.Activate();
+            m_Active.enabled = true;
+        }
+    }
+
+    private void Deactivate()
+    {
+        m_Active.enabled = false;
+        m_Active.Deactivate();
+        m_Active = null;
+    }
+
+    public void Yield(SynchronousDispatchable dispatchable)
+    {
+        if (m_Active == dispatchable)
+        {
+            Deactivate();
+        }
     }
 
 }

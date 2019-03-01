@@ -4,18 +4,13 @@ using UnityEngine;
 
 public class FireballAbility : AbilityAction
 {
+    private float m_StartTime = 0.0f;
+    private float m_Duration = 5.0f;
+    private Unit m_Target = null;
 
-    private enum State
+    protected override void Awake()
     {
-        Inactive,
-        Active,
-        Complete
-    }
-
-    private State m_State = State.Inactive;
-
-    private void Start()
-    {
+        base.Awake();
         unit.onDamageDealt += OnDamageDealt;
         unit.onDamageTaken += OnDamageTaken;
     }
@@ -30,29 +25,19 @@ public class FireballAbility : AbilityAction
         charge += amount;
     }
 
-    public override bool Run()
+    public override void Activate()
     {
-
-        if (m_State == State.Inactive)
-        {
-            Unit target = unit.board.GetFurthestEnemyUnit(unit);
-            if (target != null)
-            {
-                m_State = State.Active;
-                StartCoroutine(Cast(target));
-            }
-        }
-
-        return m_State == State.Complete;
-
+        m_Target = unit.board.GetFurthestEnemyUnit(unit);
+        if (m_Target == null)
+            Yield();
+        m_StartTime = Time.time;
+        charge -= cost;
     }
 
-    public IEnumerator Cast(Unit target)
+    private void Update()
     {
-        charge -= cost;
-        Debug.Log(string.Format("{0} casting fireball on {1}", unit, target));
-        yield return new WaitForSeconds(1.0f);
-        m_State = State.Complete;
+        if (Time.time - m_StartTime >= m_Duration)
+            Yield();
     }
 
 }
