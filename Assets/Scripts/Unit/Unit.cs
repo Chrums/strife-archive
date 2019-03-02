@@ -1,18 +1,13 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Unit : MonoBehaviour
 {
 
-    public delegate void OnDamageDealt(int amount);
-    public delegate void OnDamageTaken(int amount);
-
-    private OnDamageDealt m_OnDamageDealt;
-    public OnDamageDealt onDamageDealt { get { return m_OnDamageDealt; } set { m_OnDamageDealt = value; } }
-
-    private OnDamageDealt m_OnDamageTaken;
-    public OnDamageDealt onDamageTaken { get { return m_OnDamageTaken; } set { m_OnDamageTaken = value; } }
+    private Dispatcher m_Dispatcher = new Dispatcher();
+    public Dictionary<string, object> m_Stats;
 
     [SerializeField]
     private Player m_Player;
@@ -25,10 +20,20 @@ public class Unit : MonoBehaviour
     [SerializeField]
     private Vector2Int m_Position;
     public Vector2Int position { get { return m_Position; } set { m_Position = value; transform.position = board.GetUnitWorldSpacePosition(this); } }
-    
+
     private void Start()
     {
         transform.position = board.GetUnitWorldSpacePosition(this);
+    }
+
+    public void On<T>(Action<T> action)
+    {
+        m_Dispatcher.On(action);
+    }
+
+    public void Emit<T>(T item)
+    {
+        m_Dispatcher.Emit(item);
     }
 
 }

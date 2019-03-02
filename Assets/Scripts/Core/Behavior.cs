@@ -2,19 +2,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(SynchronousDispatcher))]
-public abstract class SynchronousDispatchable : MonoBehaviour
+[RequireComponent(typeof(BehaviorManager))]
+public abstract class Behavior : MonoBehaviour
 {
 
     [SerializeField]
     private float m_Priority = 0.0f;
     public float priority { get { return m_Priority; } protected set { m_Priority = value; } }
 
-    private SynchronousDispatcher m_Dispatcher;
+    private BehaviorManager m_Dispatcher;
 
     protected virtual void Awake()
     {
-        m_Dispatcher = GetComponent<SynchronousDispatcher>();
+        m_Dispatcher = GetComponent<BehaviorManager>();
         m_Dispatcher.Register(m_Priority, this);
     }
 
@@ -29,7 +29,7 @@ public abstract class SynchronousDispatchable : MonoBehaviour
     public virtual void Deactivate()
     { }
 
-    public virtual bool Interrupt(SynchronousDispatchable dispatchable)
+    public virtual bool Interrupt(Behavior dispatchable)
     {
         return false;
     }

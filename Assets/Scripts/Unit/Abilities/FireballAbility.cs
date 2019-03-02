@@ -11,18 +11,19 @@ public class FireballAbility : AbilityAction
     protected override void Awake()
     {
         base.Awake();
-        unit.onDamageDealt += OnDamageDealt;
-        unit.onDamageTaken += OnDamageTaken;
+        unit.On<DamageDealt>(OnDamageDealt);
+        unit.On<DamageTaken>(OnDamageTaken);
     }
 
-    private void OnDamageDealt(int amount)
+    private void OnDamageDealt(DamageDealt data)
     {
-        charge += amount * 2;
+        Debug.Log(data);
+        charge += data.amount * 2;
     }
 
-    private void OnDamageTaken(int amount)
+    private void OnDamageTaken(DamageTaken data)
     {
-        charge += amount;
+        charge += data.amount;
     }
 
     public override void Activate()
