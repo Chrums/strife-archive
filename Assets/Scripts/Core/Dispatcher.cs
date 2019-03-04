@@ -8,28 +8,26 @@ public class Dispatcher
 
     private Dictionary<Type, Action<object>> m_Actions = new Dictionary<Type, Action<object>>();
 
-    public void On<T>(Action<T> action)
+    public void On<T>(Action<T> action) where T : class
     {
-
-        if (m_Actions.ContainsKey(typeof(T)))
-        {
-            m_Actions[typeof(T)] += action as Action<object>;
-            Debug.Log(m_Actions[typeof(T)].GetInvocationList().Length);
-        }
+        Type key = typeof(T);
+        Action<object> value = Convert(action);
+        if (m_Actions.ContainsKey(key))
+            m_Actions[key] += value;
         else
-        {
-            m_Actions.Add(typeof(T), action as Action<object>);
-            Debug.Log(m_Actions[typeof(T)].GetInvocationList().Length);
-        }
+            m_Actions[key] = value;
     }
 
-    public void Emit<T>(T item)
+    public void Emit<T>(T item) where T : class
     {
-        if (m_Actions.ContainsKey(typeof(T)))
-        {
-            m_Actions[typeof(T)]?.Invoke(item);
-            Debug.Log(m_Actions[typeof(T)].GetInvocationList().Length);
-        }
+        Type key = typeof(T);
+        if (m_Actions.ContainsKey(key))
+            m_Actions[key]?.Invoke(item);
+    }
+
+    public Action<object> Convert<T>(Action<T> action)
+    {
+        return new Action<object>((object o) => action((T)o));
     }
 
 }

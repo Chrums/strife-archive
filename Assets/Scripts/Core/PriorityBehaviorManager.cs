@@ -2,23 +2,23 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BehaviorManager : MonoBehaviour
+public class PriorityBehaviorManager : MonoBehaviour
 {
 
-    private Behavior m_Active = null;
-    private SortedDictionary<float, List<Behavior>> m_Dispatchables = new SortedDictionary<float, List<Behavior>>();
+    private PriorityBehavior m_Active = null;
+    private SortedDictionary<float, List<PriorityBehavior>> m_Dispatchables = new SortedDictionary<float, List<PriorityBehavior>>();
     
     private void Update()
     {
         Dispatch();
     }
 
-    public void Register(float priority, Behavior dispatchable)
+    public void Register(float priority, PriorityBehavior dispatchable)
     {
-        List<Behavior> dispatchables;
+        List<PriorityBehavior> dispatchables;
         if (!m_Dispatchables.TryGetValue(priority, out dispatchables))
         {
-            dispatchables = new List<Behavior>();
+            dispatchables = new List<PriorityBehavior>();
             m_Dispatchables[priority] = dispatchables;
         }
         dispatchables.Add(dispatchable);
@@ -27,8 +27,8 @@ public class BehaviorManager : MonoBehaviour
 
     private void Dispatch()
     {
-        foreach (KeyValuePair<float, List<Behavior>> priority in m_Dispatchables)
-            foreach (Behavior dispatchable in priority.Value)
+        foreach (KeyValuePair<float, List<PriorityBehavior>> priority in m_Dispatchables)
+            foreach (PriorityBehavior dispatchable in priority.Value)
                 if (dispatchable.Query())
                 {
                     if (m_Active == null)
@@ -41,7 +41,7 @@ public class BehaviorManager : MonoBehaviour
                 }
     }
 
-    private void Activate(Behavior dispatchable)
+    private void Activate(PriorityBehavior dispatchable)
     {
         if (m_Active == null)
         {
@@ -58,7 +58,7 @@ public class BehaviorManager : MonoBehaviour
         m_Active = null;
     }
 
-    public void Yield(Behavior dispatchable)
+    public void Yield(PriorityBehavior dispatchable)
     {
         if (m_Active == dispatchable)
         {

@@ -2,20 +2,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DamageTaken
+public class Damage
 {
-    public int amount;
-    public DamageTaken(int value)
-    {
-        amount = value;
-    }
-}
 
-public class DamageDealt
-{
-    public int amount;
-    public DamageDealt(int value)
+    public Unit by { get; private set; }
+    public Unit to { get; private set; }
+    public float amount { get; private set; }
+
+    public Damage(Unit by, Unit to, float amount)
     {
-        amount = value;
+        this.by = by;
+        this.to = to;
+        Armor armor = to.stats.Get<Armor>();
+        this.amount = amount - amount * (armor.value / 100.0f);
     }
+
 }

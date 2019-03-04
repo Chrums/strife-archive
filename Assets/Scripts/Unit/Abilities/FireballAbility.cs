@@ -4,35 +4,37 @@ using UnityEngine;
 
 public class FireballAbility : AbilityAction
 {
+    private Unit m_Target = null;
     private float m_StartTime = 0.0f;
     private float m_Duration = 5.0f;
-    private Unit m_Target = null;
 
     protected override void Awake()
     {
         base.Awake();
-        unit.On<DamageDealt>(OnDamageDealt);
-        unit.On<DamageTaken>(OnDamageTaken);
+        unit.On<Damage>(OnDamage);
     }
 
-    private void OnDamageDealt(DamageDealt data)
+    private void OnDamage(Damage damage)
     {
-        Debug.Log(data);
-        charge += data.amount * 2;
-    }
-
-    private void OnDamageTaken(DamageTaken data)
-    {
-        charge += data.amount;
+        charge += damage.amount * 2.0f;
     }
 
     public override void Activate()
     {
+        base.Activate();
         m_Target = unit.board.GetFurthestEnemyUnit(unit);
         if (m_Target == null)
+        {
             Yield();
+        }
         m_StartTime = Time.time;
         charge -= cost;
+    }
+
+    public override void Deactivate()
+    {
+        base.Deactivate();
+        m_Target = null;
     }
 
     private void Update()
