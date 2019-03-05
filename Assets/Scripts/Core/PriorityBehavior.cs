@@ -5,17 +5,22 @@ using UnityEngine;
 [RequireComponent(typeof(PriorityBehaviorManager))]
 public abstract class PriorityBehavior : MonoBehaviour
 {
+    private PriorityBehaviorManager priorityBehaviorManager = null;
 
     [SerializeField]
-    private float m_Priority = 0.0f;
-    public float priority { get { return m_Priority; } protected set { m_Priority = value; } }
+    private float priority = 0.0f;
 
-    private PriorityBehaviorManager m_Dispatcher;
-
-    protected virtual void Awake()
+    public float Priority
     {
-        m_Dispatcher = GetComponent<PriorityBehaviorManager>();
-        m_Dispatcher.Register(m_Priority, this);
+        get
+        {
+            return this.priority;
+        }
+
+        protected set
+        {
+            this.priority = value;
+        }
     }
 
     public virtual bool Query()
@@ -23,20 +28,27 @@ public abstract class PriorityBehavior : MonoBehaviour
         return false;
     }
 
-    public virtual void Activate()
-    { }
-
-    public virtual void Deactivate()
-    { }
-
-    public virtual bool Interrupt(PriorityBehavior dispatchable)
+    public virtual bool Interrupt(PriorityBehavior priorityBehavior)
     {
         return false;
     }
 
-    protected void Yield()
+    public virtual void Activate()
     {
-        m_Dispatcher.Yield(this);
     }
 
+    public virtual void Deactivate()
+    {
+    }
+
+    protected void Yield()
+    {
+        this.priorityBehaviorManager.Yield(this);
+    }
+
+    private void Awake()
+    {
+        this.priorityBehaviorManager = this.GetComponent<PriorityBehaviorManager>();
+        this.priorityBehaviorManager.Register(this);
+    }
 }

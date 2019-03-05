@@ -4,66 +4,67 @@ using UnityEngine;
 
 public class PriorityBehaviorManager : MonoBehaviour
 {
+    private PriorityBehavior activePriorityBehavior = null;
+    private SortedDictionary<float, List<PriorityBehavior>> priorityBehaviors = new SortedDictionary<float, List<PriorityBehavior>>();
 
-    private PriorityBehavior m_Active = null;
-    private SortedDictionary<float, List<PriorityBehavior>> m_Dispatchables = new SortedDictionary<float, List<PriorityBehavior>>();
-    
+    public void Register(PriorityBehavior priorityBehavior)
+    {
+        if (!this.priorityBehaviors.ContainsKey(priorityBehavior.Priority))
+        {
+            this.priorityBehaviors.Add(priorityBehavior.Priority, new List<PriorityBehavior>());
+        }
+
+        this.priorityBehaviors[priorityBehavior.Priority].Add(priorityBehavior);
+        priorityBehavior.enabled = false;
+    }
+
+    public void Yield(PriorityBehavior priorityBehavior)
+    {
+        if (this.activePriorityBehavior == priorityBehavior)
+        {
+            this.Deactivate(priorityBehavior);
+        }
+    }
+
     private void Update()
     {
-        Dispatch();
-    }
-
-    public void Register(float priority, PriorityBehavior dispatchable)
-    {
-        List<PriorityBehavior> dispatchables;
-        if (!m_Dispatchables.TryGetValue(priority, out dispatchables))
+        foreach (KeyValuePair<float, List<PriorityBehavior>> priority in this.priorityBehaviors)
         {
-            dispatchables = new List<PriorityBehavior>();
-            m_Dispatchables[priority] = dispatchables;
-        }
-        dispatchables.Add(dispatchable);
-        dispatchable.enabled = false;
-    }
-
-    private void Dispatch()
-    {
-        foreach (KeyValuePair<float, List<PriorityBehavior>> priority in m_Dispatchables)
-            foreach (PriorityBehavior dispatchable in priority.Value)
-                if (dispatchable.Query())
+            foreach (PriorityBehavior priorityBehavior in priority.Value)
+            {
+                if (priorityBehavior.Query())
                 {
-                    if (m_Active == null)
-                        Activate(dispatchable);
-                    else if (m_Active.Interrupt(dispatchable))
+                    if (this.activePriorityBehavior == null)
                     {
-                        Deactivate();
-                        Activate(dispatchable);
+                        this.Activate(priorityBehavior);
+                    }
+                    else if (this.activePriorityBehavior.Interrupt(priorityBehavior))
+                    {
+                        this.Deactivate(this.activePriorityBehavior);
+                        this.Activate(priorityBehavior);
                     }
                 }
-    }
-
-    private void Activate(PriorityBehavior dispatchable)
-    {
-        if (m_Active == null)
-        {
-            m_Active = dispatchable;
-            m_Active.Activate();
-            m_Active.enabled = true;
+            }
         }
     }
 
-    private void Deactivate()
+    private void Activate(PriorityBehavior priorityBehavior)
     {
-        m_Active.enabled = false;
-        m_Active.Deactivate();
-        m_Active = null;
-    }
-
-    public void Yield(PriorityBehavior dispatchable)
-    {
-        if (m_Active == dispatchable)
+        if (this.activePriorityBehavior == null)
         {
-            Deactivate();
+            this.activePriorityBehavior = priorityBehavior;
+            this.activePriorityBehavior.Activate();
+            this.activePriorityBehavior.enabled = true;
         }
     }
 
+    private void Deactivate(PriorityBehavior priorityBehavior)
+    {
+        if (this.activePriorityBehavior == priorityBehavior)
+        {
+            this.activePriorityBehavior.enabled = false;
+            this.activePriorityBehavior.Deactivate();
+            this.activePriorityBehavior = null;
+        }
+    }
 }
