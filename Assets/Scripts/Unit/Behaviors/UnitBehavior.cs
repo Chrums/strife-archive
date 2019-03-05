@@ -11,7 +11,7 @@ public class UnitBehavior : PriorityBehavior
         private set;
     }
 
-    private void Awake()
+    protected virtual void Awake()
     {
         this.Unit = this.GetComponent<Unit>();
     }

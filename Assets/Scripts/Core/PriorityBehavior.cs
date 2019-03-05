@@ -28,6 +28,10 @@ public abstract class PriorityBehavior : MonoBehaviour
         return false;
     }
 
+    public virtual void Pump()
+    {
+    }
+
     public virtual bool Interrupt(PriorityBehavior priorityBehavior)
     {
         return false;
