@@ -5,9 +5,38 @@ using UnityEngine;
 public class Health : Stat
 {
     [SerializeField]
-    private float value = 100.0f;
-    
+    private float points = 100.0f;
+
+    [SerializeField]
     private float multiplier = 1.0f;
+
+    public float Points
+    {
+        get
+        {
+            return this.points;
+        }
+
+        set
+        {
+            this.Current = ((this.Current / this.multiplier) / this.points) * value * this.multiplier;
+            this.points = value;
+        }
+    }
+
+    public float Multiplier
+    {
+        get
+        {
+            return this.multiplier;
+        }
+
+        set
+        {
+            this.Current = (this.Current / this.multiplier) * value;
+            this.multiplier = value;
+        }
+    }
 
     public float Current
     {
@@ -18,11 +47,11 @@ public class Health : Stat
 
     private void Awake()
     {
-        this.Unit.On<UnitReset>(this.Reset);
+        this.Reset();
     }
 
-    private void Reset(UnitReset unitReset)
+    private void Reset()
     {
-        this.Current = value * multiplier;
+        this.Current = this.points * this.multiplier;
     }
 }
