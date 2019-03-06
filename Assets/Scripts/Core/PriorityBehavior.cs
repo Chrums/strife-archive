@@ -50,7 +50,7 @@ public abstract class PriorityBehavior : MonoBehaviour
         this.priorityBehaviorManager.Yield(this);
     }
 
-    private void Awake()
+    protected virtual void Awake()
     {
         this.priorityBehaviorManager = this.GetComponent<PriorityBehaviorManager>();
         this.priorityBehaviorManager.Register(this);

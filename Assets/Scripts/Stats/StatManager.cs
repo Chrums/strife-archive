@@ -10,13 +10,19 @@ public class StatManager : MonoBehaviour
     public void Add<T>(T value) where T : IStat
     {
         Type key = typeof(T);
-        this.stats.Add(key, value);
+        if (!this.stats.ContainsKey(key))
+        {
+            this.stats.Add(key, value);
+        }
     }
 
     public void Remove<T>(T value) where T : IStat
     {
         Type key = typeof(T);
-        this.stats.Remove(key);
+        if (this.stats.ContainsKey(key))
+        {
+            this.stats.Remove(key);
+        }
     }
 
     public T Get<T>() where T : IStat

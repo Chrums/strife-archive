@@ -12,8 +12,9 @@ public abstract class UnitBehavior : PriorityBehavior
     }
     = null;
 
-    protected virtual void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         this.Unit = this.GetComponent<Unit>();
     }
 }

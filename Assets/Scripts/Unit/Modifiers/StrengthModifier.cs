@@ -13,13 +13,13 @@ public class StrengthModifier : UnitModifier
     public override void Added()
     {
         base.Added();
-        this.healthStat.Basic += strengthStat.Value * healthPerStrength;
+        this.healthStat.BaseValue += strengthStat.Value * healthPerStrength;
     }
 
     public override void Removed()
     {
         base.Removed();
-        this.healthStat.Basic -= strengthStat.Value * healthPerStrength;
+        this.healthStat.BaseValue -= strengthStat.Value * healthPerStrength;
     }
 
     protected override void Awake()
