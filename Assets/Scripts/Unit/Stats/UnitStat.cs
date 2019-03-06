@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Unit))]
-public abstract class Stat : MonoBehaviour
+public abstract class UnitStat<T> : Stat<T> where T : Stat<T>
 {
     public Unit Unit
     {
@@ -11,9 +11,9 @@ public abstract class Stat : MonoBehaviour
         private set;
     }
 
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         this.Unit = this.GetComponent<Unit>();
-        Unit.Stats.Add(this);
     }
 }

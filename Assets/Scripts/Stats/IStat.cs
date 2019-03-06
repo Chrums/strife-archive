@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(Unit))]
-public abstract class UnitBehavior : PriorityBehavior
+[RequireComponent(typeof(StatManager))]
+public abstract class IStat : MonoBehaviour
 {
-    public Unit Unit
+    protected StatManager Manager
     {
         get;
         private set;
@@ -14,6 +14,6 @@ public abstract class UnitBehavior : PriorityBehavior
 
     protected virtual void Awake()
     {
-        this.Unit = this.GetComponent<Unit>();
+        this.Manager = this.GetComponent<StatManager>();
     }
 }

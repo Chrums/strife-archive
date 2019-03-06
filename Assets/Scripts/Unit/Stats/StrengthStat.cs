@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Strength : Stat
+public class StrengthStat : UnitStat<StrengthStat>
 {
     [SerializeField]
     private float value = 0.0f;
+
+    private StrengthModifier strengthModifier = null;
 
     public float Value
     {
@@ -18,5 +20,11 @@ public class Strength : Stat
         {
             this.value = value;
         }
+    }
+
+    protected override void Awake()
+    {
+        base.Awake();
+        this.strengthModifier = this.Unit.Modifiers.Add<StrengthModifier>();
     }
 }

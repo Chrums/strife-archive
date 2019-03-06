@@ -3,26 +3,26 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class StatManager
+public class StatManager : MonoBehaviour
 {
-    private Dictionary<Type, Stat> stats = new Dictionary<Type, Stat>();
+    private Dictionary<Type, IStat> stats = new Dictionary<Type, IStat>();
 
-    public void Add<T>(T value) where T : Stat
+    public void Add<T>(T value) where T : IStat
     {
         Type key = typeof(T);
         this.stats.Add(key, value);
     }
 
-    public void Remove<T>(T value) where T : Stat
+    public void Remove<T>(T value) where T : IStat
     {
         Type key = typeof(T);
         this.stats.Remove(key);
     }
 
-    public T Get<T>() where T : Stat
+    public T Get<T>() where T : IStat
     {
         Type key = typeof(T);
-        Stat value;
+        IStat value;
         this.stats.TryGetValue(key, out value);
         return value as T;
     }

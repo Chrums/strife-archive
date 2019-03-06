@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Unit))]
-public abstract class UnitBehavior : PriorityBehavior
+public abstract class UnitModifier : Modifier
 {
     public Unit Unit
     {
@@ -12,8 +12,9 @@ public abstract class UnitBehavior : PriorityBehavior
     }
     = null;
 
-    protected virtual void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         this.Unit = this.GetComponent<Unit>();
     }
 }

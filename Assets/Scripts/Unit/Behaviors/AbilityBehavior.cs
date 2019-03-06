@@ -4,61 +4,45 @@ using UnityEngine;
 
 public class AbilityBehavior : UnitBehavior
 {
+    [SerializeField]
+    private float cooldown = 10.0f;
 
     [SerializeField]
     private float cost = 100.0f;
 
-    [SerializeField]
-    private float cooldown = 10.0f;
-
     private float charge = 0.0f;
 
-    private float cooldownCount = 0.0f;
+    private float timer = 0.0f;
 
     public override bool Query()
     {
-        return charge > cost && cooldownCount > cooldown;
+        return this.charge > this.cost && this.timer < 0.0f;
     }
 
-    public override void Activate()
+    public override void Activated()
     {
-        base.Activate();
-        charge -= cost;
-        cooldownCount = 0.0f;
+        base.Activated();
+        this.charge -= this.cost;
+        this.timer = this.cooldown;
     }
 
-    public override void Deactivate()
+    public override void Deactivated()
     {
-        base.Deactivate();
-
+        base.Deactivated();
     }
 
-    public override void Pump()
+    public override void Pumped()
     {
-        base.Pump();
-        
+        base.Pumped();
     }
 
     protected override void Awake()
     {
         base.Awake();
-        //Unit.On<Damage>(this.OnDamage);
     }
 
     private void Update()
     {
-        cooldownCount += Time.deltaTime;
+        this.timer += Time.deltaTime;
     }
-
-    //protected virtual OnDamage(Damage damage)
-    //{
-    //    if (damage.by == this.Unit)
-    //    {
-    //        charge += damage.amount;
-    //    }
-    //    else if (damage.to == this.Unit)
-    //    {
-    //        charge += damage.amount * 2.0f;
-    //    }
-    //}
 }

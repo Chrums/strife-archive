@@ -28,21 +28,21 @@ public abstract class PriorityBehavior : MonoBehaviour
         return false;
     }
 
-    public virtual void Pump()
+    public virtual void Pumped()
+    {
+    }
+
+    public virtual void Activated()
+    {
+    }
+
+    public virtual void Deactivated()
     {
     }
 
     public virtual bool Interrupt(PriorityBehavior priorityBehavior)
     {
         return false;
-    }
-
-    public virtual void Activate()
-    {
-    }
-
-    public virtual void Deactivate()
-    {
     }
 
     protected void Yield()

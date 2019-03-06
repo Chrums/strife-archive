@@ -48,7 +48,7 @@ public class PriorityBehaviorManager : MonoBehaviour
         
         if (this.activePriorityBehavior != null)
         {
-            this.activePriorityBehavior.Pump();
+            this.activePriorityBehavior.Pumped();
         }
     }
 
@@ -57,7 +57,7 @@ public class PriorityBehaviorManager : MonoBehaviour
         if (this.activePriorityBehavior == null)
         {
             this.activePriorityBehavior = priorityBehavior;
-            this.activePriorityBehavior.Activate();
+            this.activePriorityBehavior.Activated();
         }
     }
 
@@ -65,7 +65,7 @@ public class PriorityBehaviorManager : MonoBehaviour
     {
         if (this.activePriorityBehavior == priorityBehavior)
         {
-            this.activePriorityBehavior.Deactivate();
+            this.activePriorityBehavior.Deactivated();
             this.activePriorityBehavior = null;
         }
     }
