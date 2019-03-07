@@ -17,14 +17,14 @@ public abstract class ScalableStat<T> : Stat<T> where T : Stat<T>
     private float current = 0.0f;
 
     [SerializeField]
-    private float regeneration = 0.0f;
+    private float regenerationValue = 0.0f;
 
     [SerializeField]
-    private float regenerationTime = 1.0f;
+    private float regenerationCooldown = 1.0f;
 
-    private float regenerationTimer = 0.0f;
+    private float regenerationCooldownTimer = 0.0f;
 
-    public float BaseValue
+    public float Base
     {
         get
         {
@@ -39,7 +39,7 @@ public abstract class ScalableStat<T> : Stat<T> where T : Stat<T>
         }
     }
 
-    public float BaseMultiplier
+    public float Multiplier
     {
         get
         {
@@ -58,25 +58,25 @@ public abstract class ScalableStat<T> : Stat<T> where T : Stat<T>
     {
         get
         {
-            return this.regeneration;
+            return this.regenerationValue;
         }
 
         set
         {
-            this.regeneration = value;
+            this.regenerationValue = value;
         }
     }
 
-    public float RegenerationTime
+    public float RegenerationCooldown
     {
         get
         {
-            return this.regenerationTime;
+            return this.regenerationCooldown;
         }
 
         set
         {
-            this.regenerationTime = value;
+            this.regenerationCooldown = value;
         }
     }
 
@@ -84,7 +84,7 @@ public abstract class ScalableStat<T> : Stat<T> where T : Stat<T>
     {
         get
         {
-            return this.regeneration / this.regenerationTime;
+            return this.regenerationValue / this.regenerationCooldown;
         }
     }
 
@@ -130,11 +130,11 @@ public abstract class ScalableStat<T> : Stat<T> where T : Stat<T>
 
     protected void Update()
     {
-        this.regenerationTimer += Time.deltaTime;
-        if (this.regenerationTimer > this.regenerationTime)
+        this.regenerationCooldownTimer += Time.deltaTime;
+        if (this.regenerationCooldownTimer > this.regenerationCooldown)
         {
             this.Current += this.Regeneration;
-            this.regenerationTimer -= this.regenerationTime;
+            this.regenerationCooldownTimer -= this.regenerationCooldown;
         }
     }
 }

@@ -3,15 +3,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ActionManager : MonoBehaviour
+public class ActionManager
 {
     private Dictionary<Type, Action<object>> actions = new Dictionary<Type, Action<object>>();
-    private Hashtable mapping = new Hashtable();
+    private Hashtable wrappers = new Hashtable();
 
     public void On<T>(Action<T> action) where T : class
     {
         Type key = typeof(T);
-        Action<object> value = this.Convert(action);
+        Action<object> value = this.Wrap(action);
         if (!this.actions.ContainsKey(key))
         {
             this.actions[key] = value;
@@ -21,14 +21,14 @@ public class ActionManager : MonoBehaviour
             this.actions[key] += value;
         }
 
-        this.mapping.Add(action, value);
+        this.wrappers.Add(action, value);
     }
 
     public void Off<T>(Action<T> action) where T : class
     {
-        Action<object> value = this.mapping[action] as Action<object>;
+        Action<object> value = this.wrappers[action] as Action<object>;
         this.actions[typeof(T)] -= value;
-        this.mapping.Remove(action);
+        this.wrappers.Remove(action);
     }
 
     public void Emit<T>(T value) where T : class
@@ -40,7 +40,7 @@ public class ActionManager : MonoBehaviour
         }
     }
 
-    private Action<object> Convert<T>(Action<T> action)
+    private Action<object> Wrap<T>(Action<T> action)
     {
         return new Action<object>((object o) => action((T)o));
     }

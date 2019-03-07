@@ -5,25 +5,30 @@ using UnityEngine;
 public class AbilityBehavior : UnitBehavior
 {
     [SerializeField]
-    private float cooldown = 10.0f;
-
-    [SerializeField]
     private float cost = 100.0f;
 
     private float charge = 0.0f;
 
-    private float timer = 0.0f;
+    [SerializeField]
+    private float cooldown = 10.0f;
+
+    private float cooldownTimer = 0.0f;
+
+    public AbilityBehavior()
+    {
+        this.Priority = 0.2f;
+    }
 
     public override bool Query()
     {
-        return this.charge > this.cost && this.timer < 0.0f;
+        return this.charge > this.cost && this.cooldownTimer > this.cooldown;
     }
 
     public override void Activated()
     {
         base.Activated();
         this.charge -= this.cost;
-        this.timer = this.cooldown;
+        this.cooldownTimer = 0.0f;
     }
 
     public override void Deactivated()
@@ -43,6 +48,6 @@ public class AbilityBehavior : UnitBehavior
 
     private void Update()
     {
-        this.timer += Time.deltaTime;
+        this.cooldownTimer += Time.deltaTime;
     }
 }
