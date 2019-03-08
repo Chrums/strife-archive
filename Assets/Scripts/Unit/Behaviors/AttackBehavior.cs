@@ -18,7 +18,6 @@ public class AttackBehavior : UnitBehavior
     public override bool Query()
     {
         this.target = this.Unit.Board.Units
-            .Where(unit => unit.Position.Cell != null)
             .Where(unit => unit.Player != this.Unit.Player)
             .OrderBy(unit => Vector2.Distance(this.Unit.Position.Cell, unit.Position.Cell))
             .FirstOrDefault();
