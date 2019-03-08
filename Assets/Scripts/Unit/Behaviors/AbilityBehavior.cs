@@ -24,21 +24,21 @@ public class AbilityBehavior : UnitBehavior
         return this.charge > this.cost && this.cooldownTimer > this.cooldown;
     }
 
-    public override void Activated()
+    public override void Activate()
     {
-        base.Activated();
+        base.Activate();
         this.charge -= this.cost;
         this.cooldownTimer = 0.0f;
     }
 
-    public override void Deactivated()
+    public override void Deactivate()
     {
-        base.Deactivated();
+        base.Deactivate();
     }
 
-    public override void Pumped()
+    public override void Pump()
     {
-        base.Pumped();
+        base.Pump();
     }
 
     protected override void Awake()

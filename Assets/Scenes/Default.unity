@@ -196,11 +196,13 @@ GameObject:
   - component: {fileID: 316617982}
   - component: {fileID: 316617972}
   - component: {fileID: 316617978}
+  - component: {fileID: 316617985}
   - component: {fileID: 316617980}
   - component: {fileID: 316617981}
   - component: {fileID: 316617974}
   - component: {fileID: 316617973}
   - component: {fileID: 316617979}
+  - component: {fileID: 316617984}
   m_Layer: 0
   m_Name: Unit
   m_TagString: Untagged
@@ -223,8 +225,6 @@ MonoBehaviour:
   baseValue: 100
   initialPercentage: 100
   current: 0
-  regenerationValue: 0
-  regenerationCooldown: 1
 --- !u!114 &316617973
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -273,7 +273,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3fee0558f554df548908ce05a7918257, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  owner: {fileID: 971872970}
+  player: {fileID: 0}
+  board: {fileID: 1802125850}
 --- !u!4 &316617977
 Transform:
   m_ObjectHideFlags: 0
@@ -303,8 +304,6 @@ MonoBehaviour:
   baseValue: 100
   initialPercentage: 0
   current: 0
-  regenerationValue: 5
-  regenerationCooldown: 1
 --- !u!114 &316617979
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -332,7 +331,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   value: 4
   healthPerStrength: 10
-  healthRegenerationPerStrength: 1
 --- !u!114 &316617981
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -347,7 +345,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   value: 2
   manaPerIntelligence: 10
-  manaRegenerationPerIntelligence: 1
 --- !u!114 &316617982
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -360,8 +357,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1958a3833ef70c348a24001fe17672d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  board: {fileID: 1802125850}
-  value: {x: 2, y: 2}
+  cell: {x: 0, y: 0}
 --- !u!212 &316617983
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -410,6 +406,58 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &316617984
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 316617971}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 670b9b2f204164449acf3d3f0db8e051, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  priority: 0.6
+  curve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+--- !u!114 &316617985
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 316617971}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: facda29f56a3b96449af7edb029e4680, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  baseValue: 5
+  initialPercentage: 100
+  current: 0
 --- !u!1 &534669902
 GameObject:
   m_ObjectHideFlags: 0
@@ -461,7 +509,7 @@ Camera:
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
-  orthographic: 0
+  orthographic: 1
   orthographic size: 5
   m_Depth: -1
   m_CullingMask:

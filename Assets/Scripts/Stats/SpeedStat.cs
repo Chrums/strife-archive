@@ -2,6 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HealthStat : ScalableStat<HealthStat>
+public class SpeedStat : ScalableStat<SpeedStat>
 {
 }

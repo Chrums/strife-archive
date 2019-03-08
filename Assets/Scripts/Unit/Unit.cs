@@ -4,28 +4,29 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(StatManager))]
+[RequireComponent(typeof(PositionStat))]
 [RequireComponent(typeof(ModifierManager))]
 [RequireComponent(typeof(PriorityBehaviorManager))]
 public class Unit : MonoBehaviour
 {
     [SerializeField]
-    private Player owner = null;
+    private Player player = null;
 
     [SerializeField]
     private Board board = null;
 
     private ActionManager actionManager = new ActionManager();
 
-    public Player Owner
+    public Player Player
     {
         get
         {
-            return this.owner;
+            return this.player;
         }
 
         private set
         {
-            this.owner = value;
+            this.player = value;
         }
     }
 
@@ -80,15 +81,17 @@ public class Unit : MonoBehaviour
         this.actionManager.Emit(value);
     }
 
+    public void Initialize(Player player, Board board)
+    {
+        this.player = player;
+        this.board = board;
+    }
+
     private void Awake()
     {
         this.Stats = this.GetComponent<StatManager>();
         this.Modifiers = this.GetComponent<ModifierManager>();
         this.Behaviors = this.GetComponent<PriorityBehaviorManager>();
-    }
-
-    private void Start()
-    {
-        this.Position = this.Stats.Get<PositionStat>();
+        this.Position = this.GetComponent<PositionStat>();
     }
 }

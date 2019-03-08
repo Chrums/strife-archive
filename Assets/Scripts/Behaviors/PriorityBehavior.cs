@@ -23,20 +23,28 @@ public abstract class PriorityBehavior : MonoBehaviour
         }
     }
 
+    public bool IsActive
+    {
+        get
+        {
+            return this.priorityBehaviorManager.Active == this;
+        }
+    }
+
     public virtual bool Query()
     {
         return false;
     }
 
-    public virtual void Pumped()
+    public virtual void Pump()
     {
     }
 
-    public virtual void Activated()
+    public virtual void Activate()
     {
     }
 
-    public virtual void Deactivated()
+    public virtual void Deactivate()
     {
     }
 

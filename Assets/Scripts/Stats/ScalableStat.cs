@@ -16,14 +16,6 @@ public abstract class ScalableStat<T> : Stat<T> where T : Stat<T>
     [SerializeField]
     private float current = 0.0f;
 
-    [SerializeField]
-    private float regenerationValue = 0.0f;
-
-    [SerializeField]
-    private float regenerationCooldown = 1.0f;
-
-    private float regenerationCooldownTimer = 0.0f;
-
     public float Base
     {
         get
@@ -51,40 +43,6 @@ public abstract class ScalableStat<T> : Stat<T> where T : Stat<T>
             this.Maximum = this.baseValue * value;
             this.Current = this.Current / this.baseMultiplier * value;
             this.baseMultiplier = value;
-        }
-    }
-
-    public float Regeneration
-    {
-        get
-        {
-            return this.regenerationValue;
-        }
-
-        set
-        {
-            this.regenerationValue = value;
-        }
-    }
-
-    public float RegenerationCooldown
-    {
-        get
-        {
-            return this.regenerationCooldown;
-        }
-
-        set
-        {
-            this.regenerationCooldown = value;
-        }
-    }
-
-    public float RegenerationPerSecond
-    {
-        get
-        {
-            return this.regenerationValue / this.regenerationCooldown;
         }
     }
 
@@ -126,15 +84,5 @@ public abstract class ScalableStat<T> : Stat<T> where T : Stat<T>
         base.Awake();
         this.Maximum = this.baseValue * this.baseMultiplier;
         this.Current = this.Maximum * this.initialPercentage / 100.0f;
-    }
-
-    protected void Update()
-    {
-        this.regenerationCooldownTimer += Time.deltaTime;
-        if (this.regenerationCooldownTimer > this.regenerationCooldown)
-        {
-            this.Current += this.Regeneration;
-            this.regenerationCooldownTimer -= this.regenerationCooldown;
-        }
     }
 }

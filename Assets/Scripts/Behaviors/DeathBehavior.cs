@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DeathBehavior : UnitBehavior
+[RequireComponent(typeof(HealthStat))]
+public class DeathBehavior : PriorityBehavior
 {
     private HealthStat healthStat = null;
 
@@ -16,14 +17,14 @@ public class DeathBehavior : UnitBehavior
         return this.healthStat.Current == 0;
     }
 
-    public override void Activated()
+    public override void Activate()
     {
-        base.Activated();
-        this.gameObject.SetActive(false);
+        base.Activate();
     }
 
-    protected void Start()
+    protected override void Awake()
     {
-        this.healthStat = this.Unit.Stats.Get<HealthStat>();
+        base.Awake();
+        this.healthStat = this.GetComponent<HealthStat>();
     }
 }
