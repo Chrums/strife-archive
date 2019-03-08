@@ -5,9 +5,9 @@ using UnityEngine;
 public class PositionStat : Stat<PositionStat>
 {
     [SerializeField]
-    private Vector2Int cell = new Vector2Int(0, 0);
+    private Vector2Int? cell = null;
 
-    public Vector2Int Cell
+    public Vector2Int? Cell
     {
         get
         {

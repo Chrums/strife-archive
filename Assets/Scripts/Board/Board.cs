@@ -41,7 +41,7 @@ public class Board : MonoBehaviour
 
     public bool IsCellEmpty(Vector2Int cell)
     {
-        return this.Units.Aggregate(true, (bool value, Unit unit) => value || unit.Stats.Get<PositionStat>().Cell != cell);
+        return this.Units.Aggregate(true, (bool value, Unit unit) => value || unit.Position.Cell != null && unit.Position.Cell != cell);
     }
 
     private void Awake()
