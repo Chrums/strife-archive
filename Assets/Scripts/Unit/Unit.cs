@@ -5,7 +5,6 @@ using UnityEngine;
 
 [RequireComponent(typeof(StatManager))]
 [RequireComponent(typeof(PositionStat))]
-[RequireComponent(typeof(ModifierManager))]
 [RequireComponent(typeof(PriorityBehaviorManager))]
 public class Unit : MonoBehaviour
 {
@@ -57,13 +56,6 @@ public class Unit : MonoBehaviour
     }
     = null;
 
-    public ModifierManager Modifiers
-    {
-        get;
-        private set;
-    }
-    = null;
-
     public PriorityBehaviorManager Behaviors
     {
         get;
@@ -90,7 +82,6 @@ public class Unit : MonoBehaviour
     private void Awake()
     {
         this.Stats = this.GetComponent<StatManager>();
-        this.Modifiers = this.GetComponent<ModifierManager>();
         this.Behaviors = this.GetComponent<PriorityBehaviorManager>();
         this.Position = this.GetComponent<PositionStat>();
     }

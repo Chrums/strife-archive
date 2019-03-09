@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
+[RequireComponent(typeof(RangeStat))]
 public class AttackBehavior : UnitBehavior
 {
-    [SerializeField]
-    private float range = 10.0f;
+    private RangeStat rangeStat = null;
 
     private Unit target = null;
     
@@ -21,14 +21,22 @@ public class AttackBehavior : UnitBehavior
             .Where(unit => unit.Player != this.Unit.Player)
             .OrderBy(unit => Vector2.Distance(this.Unit.Position.Cell, unit.Position.Cell))
             .FirstOrDefault();
-        return this.target == null
-            ? false
-            : Vector2.Distance(this.Unit.Position.Cell, this.target.Position.Cell) < this.range;
+        if (target == null)
+        {
+            return false;
+        }
+
+        return Vector2.Distance(this.Unit.Position.Cell, this.target.Position.Cell) < this.rangeStat.Current;
     }
 
     public override void Activate()
     {
         base.Activate();
+    }
 
+    protected override void Awake()
+    {
+        base.Awake();
+        this.rangeStat = this.GetComponent<RangeStat>();
     }
 }
