@@ -10,8 +10,8 @@ public class StrengthStat : Stat<StrengthStat>
 
     [SerializeField]
     private float healthPerStrength = 10.0f;
-    
-    private HealthStat healthStat = null;
+
+    private Modifier<float> healthBaseModifier = null;
 
     public float Value
     {
@@ -22,7 +22,7 @@ public class StrengthStat : Stat<StrengthStat>
 
         set
         {
-            this.healthStat.Base += (this.value * this.healthPerStrength * -1.0f) + (value * this.healthPerStrength);
+            this.healthBaseModifier.Modify(healthBase => healthBase + value * this.healthPerStrength);
             this.value = value;
         }
     }
@@ -30,7 +30,7 @@ public class StrengthStat : Stat<StrengthStat>
     protected override void Awake()
     {
         base.Awake();
-        this.healthStat = this.GetComponent<HealthStat>();
-        this.healthStat.Base += this.value * this.healthPerStrength;
+        HealthStat healthStat = this.GetComponent<HealthStat>();
+        this.healthBaseModifier = healthStat.Base.Modify(healthBase => healthBase + this.value * this.healthPerStrength);
     }
 }

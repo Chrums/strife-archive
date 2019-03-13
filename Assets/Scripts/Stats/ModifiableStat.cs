@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ModifiableStat<T, D> : Stat<T> where T : Stat<T> where D : new()
+public class ModifiableStat<T, D> : Stat<T> where T : Stat<T> where D : struct
 {
     private Modifiable<D> modifiable = new Modifiable<D>();
 

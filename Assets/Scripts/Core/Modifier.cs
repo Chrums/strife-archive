@@ -3,21 +3,35 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Modifier<T> where T : struct
+public class Modifier<T> where T : new()
 {
     private Modifiable<T> modifiable = null;
 
+    public Func<T, T> transform = null;
+
     public Func<T, T> Transform
     {
-        get;
-        private set;
+        get
+        {
+            return this.transform;
+        }
+
+        set
+        {
+            this.Modify(value);
+        }
     }
-    = null;
 
     public Modifier(Modifiable<T> modifiable, Func<T, T> transform)
     {
         this.modifiable = modifiable;
-        this.Transform = transform;
+        this.transform = transform;
+    }
+
+    public void Modify(Func<T, T> transform)
+    {
+        this.transform = transform;
+        this.modifiable.Calculate();
     }
 
     public void Destroy()

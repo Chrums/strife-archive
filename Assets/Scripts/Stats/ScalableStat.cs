@@ -5,46 +5,30 @@ using UnityEngine;
 public abstract class ScalableStat<T> : Stat<T> where T : Stat<T>
 {
     [SerializeField]
-    private float baseValue = 100.0f;
+    private float initialBase = 100.0f;
 
-    private float baseMultiplier = 1.0f;
+    [SerializeField]
+    private float initialMultiplier = 1.0f;
 
     [SerializeField]
     [Range(0.0f, 100.0f)]
     private float initialPercentage = 100.0f;
 
-    [SerializeField]
-    private float current = 0.0f;
+    private float current = default;
 
-    public float Base
+    public Modifiable<float> Base
     {
-        get
-        {
-            return this.baseValue;
-        }
-
-        set
-        {
-            this.Maximum = value * this.baseMultiplier;
-            this.Current = this.Current / this.baseMultiplier / this.baseValue * value * this.baseMultiplier;
-            this.baseValue = value;
-        }
+        get;
+        private set;
     }
+    = null;
 
-    public float Multiplier
+    public Modifiable<float> Multiplier
     {
-        get
-        {
-            return this.baseMultiplier;
-        }
-
-        set
-        {
-            this.Maximum = this.baseValue * value;
-            this.Current = this.Current / this.baseMultiplier * value;
-            this.baseMultiplier = value;
-        }
+        get;
+        private set;
     }
+    = null;
 
     public float Maximum
     {
@@ -81,8 +65,18 @@ public abstract class ScalableStat<T> : Stat<T> where T : Stat<T>
 
     protected override void Awake()
     {
-        base.Awake();
-        this.Maximum = this.baseValue * this.baseMultiplier;
+        this.Base = new Modifiable<float>(this.initialBase);
+        this.Base.OnChange += this.OnChange;
+        this.Multiplier = new Modifiable<float>(this.initialMultiplier);
+        this.Multiplier.OnChange += this.OnChange;
+        this.Maximum = this.Base.Value * this.Multiplier.Value;
         this.Current = this.Maximum * this.initialPercentage / 100.0f;
+    }
+
+    private void OnChange()
+    {
+        float percent = this.Current / this.Maximum;
+        this.Maximum = this.Base * this.Multiplier;
+        this.Current = percent * this.Maximum;
     }
 }
