@@ -11,7 +11,7 @@ public class IntelligenceStat : Stat<IntelligenceStat>
     [SerializeField]
     private float manaPerIntelligence = 10.0f;
 
-    private Modifier<float> manaBaseModifier = null;
+    private ModifierStruct<float> manaBaseModifier = null;
 
     public float Value
     {

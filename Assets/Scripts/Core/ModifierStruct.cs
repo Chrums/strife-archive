@@ -3,9 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Modifier<T> where T : new()
+public class ModifierStruct<T> where T : struct
 {
-    private Modifiable<T> modifiable = null;
+    private ModifiableStruct<T> modifiable = null;
 
     public Func<T, T> transform = null;
 
@@ -22,7 +22,7 @@ public class Modifier<T> where T : new()
         }
     }
 
-    public Modifier(Modifiable<T> modifiable, Func<T, T> transform)
+    public ModifierStruct(ModifiableStruct<T> modifiable, Func<T, T> transform)
     {
         this.modifiable = modifiable;
         this.transform = transform;

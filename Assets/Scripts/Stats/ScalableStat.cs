@@ -16,14 +16,14 @@ public abstract class ScalableStat<T> : Stat<T> where T : Stat<T>
 
     private float current = default;
 
-    public Modifiable<float> Base
+    public ModifiableStruct<float> Base
     {
         get;
         private set;
     }
     = null;
 
-    public Modifiable<float> Multiplier
+    public ModifiableStruct<float> Multiplier
     {
         get;
         private set;
@@ -65,9 +65,9 @@ public abstract class ScalableStat<T> : Stat<T> where T : Stat<T>
 
     protected override void Awake()
     {
-        this.Base = new Modifiable<float>(this.initialBase);
+        this.Base = new ModifiableStruct<float>(this.initialBase);
         this.Base.OnChange += this.OnChange;
-        this.Multiplier = new Modifiable<float>(this.initialMultiplier);
+        this.Multiplier = new ModifiableStruct<float>(this.initialMultiplier);
         this.Multiplier.OnChange += this.OnChange;
         this.Maximum = this.Base.Value * this.Multiplier.Value;
         this.Current = this.Maximum * this.initialPercentage / 100.0f;

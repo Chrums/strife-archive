@@ -11,7 +11,7 @@ public class StrengthStat : Stat<StrengthStat>
     [SerializeField]
     private float healthPerStrength = 10.0f;
 
-    private Modifier<float> healthBaseModifier = null;
+    private ModifierStruct<float> healthBaseModifier = null;
 
     public float Value
     {
