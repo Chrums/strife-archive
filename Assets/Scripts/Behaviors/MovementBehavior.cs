@@ -69,7 +69,6 @@ public class MovementBehavior : PriorityBehavior
     {
         base.Activate();
         this.Target = new Vector2(Random.Range(-5.0f, 5.0f), Random.Range(-5.0f, 5.0f));
-        TestStat ts = new TestStat();
     }
 
     public override void Pump()

@@ -11,7 +11,7 @@ public class Modifiable<T> where T : new()
     }
 
     private T initial = default;
-    private List<Test<T>> modifiers = new List<Test<T>>();
+    private List<Modifier<T>> modifiers = new List<Modifier<T>>();
 
     public delegate void OnChangeDelegate();
     public OnChangeDelegate OnChange = default;
@@ -29,15 +29,15 @@ public class Modifiable<T> where T : new()
         this.Value = initial;
     }
 
-    public ModifierStruct<T> Modify(Action<T> transform)
+    public Modifier<T> Modify(Transformer<T> transform)
     {
-        ModifierStruct<T> modifier = new Test<T>(this, transform);
+        Modifier<T> modifier = new Modifier<T>(this, transform);
         this.modifiers.Add(modifier);
         this.Calculate();
         return modifier;
     }
 
-    public void Destroy(Test<T> wrapper)
+    public void Destroy(Modifier<T> wrapper)
     {
         this.modifiers.Remove(wrapper);
         this.Calculate();
@@ -46,7 +46,7 @@ public class Modifiable<T> where T : new()
     public void Calculate()
     {
         T value = this.initial;
-        this.modifiers.ForEach(modifier => modifier.Transform(value));
+        this.modifiers.ForEach(modifier => modifier.Transform(ref value));
         this.Value = value;
         this.OnChange?.Invoke();
     }

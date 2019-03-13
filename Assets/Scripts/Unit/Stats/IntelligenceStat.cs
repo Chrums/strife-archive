@@ -11,7 +11,7 @@ public class IntelligenceStat : Stat<IntelligenceStat>
     [SerializeField]
     private float manaPerIntelligence = 10.0f;
 
-    private ModifierStruct<float> manaBaseModifier = null;
+    private Modifier<float> manaBaseModifier = null;
 
     public float Value
     {
@@ -22,7 +22,7 @@ public class IntelligenceStat : Stat<IntelligenceStat>
 
         set
         {
-            this.manaBaseModifier.Modify(manaBase => manaBase + value * this.manaPerIntelligence);
+            this.manaBaseModifier.Modify((ref float manaBase) => manaBase += value * this.manaPerIntelligence);
             this.value = value;
         }
     }
@@ -31,6 +31,6 @@ public class IntelligenceStat : Stat<IntelligenceStat>
     {
         base.Awake();
         ManaStat manaStat = this.GetComponent<ManaStat>();
-        this.manaBaseModifier = manaStat.Base.Modify(manaBase => manaBase + this.value * this.manaPerIntelligence);
+        this.manaBaseModifier = manaStat.Base.Modify((ref float manaBase) => manaBase += this.value * this.manaPerIntelligence);
     }
 }

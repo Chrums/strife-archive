@@ -200,6 +200,7 @@ GameObject:
   - component: {fileID: 316617985}
   - component: {fileID: 316617980}
   - component: {fileID: 316617981}
+  - component: {fileID: 316617974}
   - component: {fileID: 316617973}
   - component: {fileID: 316617979}
   - component: {fileID: 316617984}
@@ -222,9 +223,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2e508bcffc24cd4dabe9f0e72264b4a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  baseValue: 100
+  initialBase: 100
+  initialMultiplier: 1
   initialPercentage: 100
-  current: 0
 --- !u!114 &316617973
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -237,6 +238,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b020d77bfa1bb2d42a16b252aa28d2bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &316617974
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 316617971}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 863d11fb85dc42c4cbaeeb07f3185e86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  initialBase: 100
+  initialMultiplier: 1
+  initialPercentage: 100
 --- !u!114 &316617975
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -289,9 +305,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a53dd5b003b39e4496acb28bb09eb24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  baseValue: 100
+  initialBase: 100
+  initialMultiplier: 1
   initialPercentage: 0
-  current: 0
 --- !u!114 &316617979
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -317,7 +333,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6fc35079bdc859940bbef31233d3720c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  value: 4
+  value: 6
   healthPerStrength: 10
 --- !u!114 &316617981
 MonoBehaviour:
@@ -443,9 +459,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: facda29f56a3b96449af7edb029e4680, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  baseValue: 5
+  initialBase: 100
+  initialMultiplier: 1
   initialPercentage: 100
-  current: 0
 --- !u!114 &316617986
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -458,8 +474,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 863d11fb85dc42c4cbaeeb07f3185e86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  value: 10
-  multiplier: 1
+  initialBase: 100
+  initialMultiplier: 1
+  initialPercentage: 100
 --- !u!1 &534669902
 GameObject:
   m_ObjectHideFlags: 0

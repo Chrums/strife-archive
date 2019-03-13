@@ -3,13 +3,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ModifierStruct<T> where T : struct
+public delegate void Transformer<T>(ref T value);
+
+public class Modifier<T> where T : new()
 {
-    private ModifiableStruct<T> modifiable = null;
+    private Modifiable<T> modifiable = null;
 
-    public Func<T, T> transform = null;
+    public Transformer<T> transform = null;
 
-    public Func<T, T> Transform
+    public Transformer<T> Transform
     {
         get
         {
@@ -22,13 +24,13 @@ public class ModifierStruct<T> where T : struct
         }
     }
 
-    public ModifierStruct(ModifiableStruct<T> modifiable, Func<T, T> transform)
+    public Modifier(Modifiable<T> modifiable, Transformer<T> transform)
     {
         this.modifiable = modifiable;
         this.transform = transform;
     }
 
-    public void Modify(Func<T, T> transform)
+    public void Modify(Transformer<T> transform)
     {
         this.transform = transform;
         this.modifiable.Calculate();
