@@ -145,7 +145,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 113875801}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8cb1442d468413b45aba88c963d75c42, type: 3}
+  m_Script: {fileID: 11500000, guid: c0cc80f8290db9342afaa394f54042fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   priority: 0.6
@@ -212,7 +212,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d6f6b1d0992b8c4d9673e5cdb3e6435, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cell: {x: 0, y: 0}
+  cell: {x: 0, y: 10}
 --- !u!114 &113875806
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -313,7 +313,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ccd584d851f14ef4a90bda79e177ad30, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  initialBase: 2
+  initialBase: 4
   initialMultiplier: 1
   initialPercentage: 100
 --- !u!1 &170076733
@@ -586,7 +586,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ccd584d851f14ef4a90bda79e177ad30, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  initialBase: 4
+  initialBase: 2
   initialMultiplier: 1
   initialPercentage: 100
 --- !u!1 &534669902

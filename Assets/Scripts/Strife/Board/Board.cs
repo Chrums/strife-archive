@@ -107,7 +107,7 @@ namespace Fizz6.Strife
             }
         }
 
-        public Vector2Int GetFurthestAvailableCellInRange(Vector2 reference, Vector2 target, float range = Mathf.Infinity)
+        public Vector2Int? GetFurthestAvailableCellInRange(Vector2 reference, Vector2 target, float range = Mathf.Infinity)
         {
             Queue<Vector2Int> queue = new Queue<Vector2Int>();
             Vector2 position = (reference - target).normalized * range;
@@ -116,8 +116,13 @@ namespace Fizz6.Strife
             return this.GetFurthestAvailableCellInRangeHelper(target, range, queue, new HashSet<Vector2Int>());
         }
 
-        private Vector2Int GetFurthestAvailableCellInRangeHelper(Vector2 target, float range, Queue<Vector2Int> queue, HashSet<Vector2Int> visited)
+        private Vector2Int? GetFurthestAvailableCellInRangeHelper(Vector2 target, float range, Queue<Vector2Int> queue, HashSet<Vector2Int> visited)
         {
+            if (queue.Count == 0)
+            {
+                return null;
+            }
+
             Vector2Int cell = queue.Dequeue();
             if (this.IsCellEmpty(cell) && Vector2.Distance(target, cell) <= range)
             {
