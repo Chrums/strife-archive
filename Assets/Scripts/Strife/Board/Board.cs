@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -11,10 +10,10 @@ namespace Fizz6.Strife
         private Grid grid = null;
 
         [SerializeField]
-        private List<Unit> units = new List<Unit>();
+        private Vector2Int dimensions = new Vector2Int(10, 10);
 
         [SerializeField]
-        private Vector2Int dimensions = new Vector2Int(10, 10);
+        private List<Unit> units = new List<Unit>();
 
         public List<Unit> Units
         {
@@ -68,6 +67,15 @@ namespace Fizz6.Strife
             return this.GetClosestAvailableCellHelper(queue, new HashSet<Vector2Int>());
         }
 
+        public Vector2Int? GetFurthestAvailableCellInRange(Vector2 reference, Vector2 target, float range)
+        {
+            Queue<Vector2Int> queue = new Queue<Vector2Int>();
+            Vector2 position = reference + (target - reference).normalized * range;
+            Vector2Int initial = new Vector2Int(Mathf.RoundToInt(position.x), Mathf.RoundToInt(position.y));
+            queue.Enqueue(initial);
+            return this.GetFurthestAvailableCellInRangeHelper(target, range, queue, new HashSet<Vector2Int>());
+        }
+
         private Vector2Int GetClosestAvailableCellHelper(Queue<Vector2Int> queue, HashSet<Vector2Int> visited)
         {
             Vector2Int cell = queue.Dequeue();
@@ -105,15 +113,6 @@ namespace Fizz6.Strife
 
                 return this.GetClosestAvailableCellHelper(queue, visited);
             }
-        }
-
-        public Vector2Int? GetFurthestAvailableCellInRange(Vector2 reference, Vector2 target, float range = Mathf.Infinity)
-        {
-            Queue<Vector2Int> queue = new Queue<Vector2Int>();
-            Vector2 position = (reference - target).normalized * range;
-            Vector2Int initial = new Vector2Int(Mathf.RoundToInt(position.x), Mathf.RoundToInt(position.y));
-            queue.Enqueue(initial);
-            return this.GetFurthestAvailableCellInRangeHelper(target, range, queue, new HashSet<Vector2Int>());
         }
 
         private Vector2Int? GetFurthestAvailableCellInRangeHelper(Vector2 target, float range, Queue<Vector2Int> queue, HashSet<Vector2Int> visited)

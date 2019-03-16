@@ -1,6 +1,4 @@
 ﻿using Fizz6.Core;
-using System.Collections;
-using System.Collections.Generic;
 
 namespace Fizz6.Strife
 {

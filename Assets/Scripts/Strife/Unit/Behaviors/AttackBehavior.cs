@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using UnityEngine;
 
 namespace Fizz6.Strife
@@ -23,6 +21,7 @@ namespace Fizz6.Strife
                 .Where(unit => unit.Player != this.Unit.Player)
                 .OrderBy(unit => Vector2.Distance(this.Unit.Position.Cell, unit.Position.Cell))
                 .FirstOrDefault();
+
             if (this.target == null)
             {
                 return false;

@@ -1,46 +1,42 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-namespace Fizz6.Core
+﻿namespace Fizz6.Core
 {
-    public delegate void Transformer<T>(ref T value);
-
-    public class Modifier<T> where T : new()
+    public partial class Modifiable<T>
     {
-        private Modifiable<T> modifiable = null;
-
-        private Transformer<T> transform = null;
-
-        public Modifier(Modifiable<T> modifiable, Transformer<T> transform)
+        public class Modifier
         {
-            this.modifiable = modifiable;
-            this.transform = transform;
-        }
+            private Modifiable<T> modifiable = null;
 
-        public Transformer<T> Transform
-        {
-            get
+            private Transformation transformation = null;
+
+            public Modifier(Modifiable<T> modifiable, Transformation transformation)
             {
-                return this.transform;
+                this.modifiable = modifiable;
+                this.transformation = transformation;
             }
 
-            set
+            public Transformation Transformation
             {
-                this.Modify(value);
+                get
+                {
+                    return this.transformation;
+                }
+
+                set
+                {
+                    this.Modify(value);
+                }
             }
-        }
 
-        public void Modify(Transformer<T> transform)
-        {
-            this.transform = transform;
-            this.modifiable.Calculate();
-        }
+            public void Modify(Transformation transformation)
+            {
+                this.transformation = transformation;
+                this.modifiable.Update();
+            }
 
-        public void Destroy()
-        {
-            this.modifiable.Destroy(this);
+            public void Destroy()
+            {
+                this.modifiable.Destroy(this);
+            }
         }
     }
 }

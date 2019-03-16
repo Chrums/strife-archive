@@ -1,14 +1,13 @@
 ﻿using Fizz6.Core;
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+
 using Event = Fizz6.Core.Event;
 
 namespace Fizz6.Strife
 {
     [RequireComponent(typeof(StatManager))]
-    [RequireComponent(typeof(BoardPositionStat))]
+    [RequireComponent(typeof(PositionStat))]
     [RequireComponent(typeof(PriorityBehaviorManager))]
     public class Unit : MonoBehaviour
     {
@@ -46,7 +45,7 @@ namespace Fizz6.Strife
             }
         }
 
-        public BoardPositionStat Position
+        public PositionStat Position
         {
             get;
             private set;
@@ -87,7 +86,7 @@ namespace Fizz6.Strife
         {
             this.Stats = this.GetComponent<StatManager>();
             this.Behaviors = this.GetComponent<PriorityBehaviorManager>();
-            this.Position = this.GetComponent<BoardPositionStat>();
+            this.Position = this.GetComponent<PositionStat>();
         }
     }
 }

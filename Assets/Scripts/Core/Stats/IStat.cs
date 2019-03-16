@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Fizz6.Core
+﻿namespace Fizz6.Core
 {
     public interface IStat
     {

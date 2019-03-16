@@ -1,6 +1,4 @@
 ﻿using Fizz6.Core;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Fizz6.Strife
@@ -18,9 +16,9 @@ namespace Fizz6.Strife
         [SerializeField]
         private float manaRegenerationPerIntelligence = 1.0f;
 
-        private Modifier<float> manaBaseModifier = null;
+        private Modifiable<float>.Modifier manaBaseModifier = null;
 
-        private Modifier<float> manaRegenerationBaseModifier = null;
+        private Modifiable<float>.Modifier manaRegenerationBaseModifier = null;
 
         public float Value
         {

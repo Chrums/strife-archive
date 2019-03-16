@@ -1,20 +1,19 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Fizz6.Strife
 {
+    [RequireComponent(typeof(ManaStat))]
     public class AbilityBehavior : UnitBehavior
     {
         [SerializeField]
         private float cost = 100.0f;
 
-        private float charge = 0.0f;
-
         [SerializeField]
         private float cooldown = 10.0f;
 
         private float cooldownTimer = 0.0f;
+
+        private ManaStat manaStat = null;
 
         public AbilityBehavior()
         {
@@ -23,13 +22,13 @@ namespace Fizz6.Strife
 
         public override bool Query()
         {
-            return this.charge > this.cost && this.cooldownTimer > this.cooldown;
+            return this.manaStat.Current > this.cost && this.cooldownTimer > this.cooldown;
         }
 
         public override void Activate()
         {
             base.Activate();
-            this.charge -= this.cost;
+            this.manaStat.Current -= this.cost;
             this.cooldownTimer = 0.0f;
         }
 
@@ -46,6 +45,7 @@ namespace Fizz6.Strife
         protected override void Awake()
         {
             base.Awake();
+            this.manaStat = this.GetComponent<ManaStat>();
         }
 
         private void Update()

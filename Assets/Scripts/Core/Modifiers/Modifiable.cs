@@ -1,20 +1,17 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using System.Collections.Generic;
 
 namespace Fizz6.Core
 {
-    public class Modifiable<T> where T : new()
+    public partial class Modifiable<T> where T : new()
     {
         public static implicit operator T(Modifiable<T> modifiable)
         {
             return modifiable.Value;
         }
 
-        private T initial = default;
+        public delegate void Transformation(ref T value);
 
-        private List<Modifier<T>> modifiers = new List<Modifier<T>>();
+        private List<Modifier> modifiers = new List<Modifier>();
 
         public delegate void OnChangeDelegate();
         public OnChangeDelegate OnChange = default;
@@ -26,44 +23,24 @@ namespace Fizz6.Core
         }
         = default;
 
-        public T Initial
+        public Modifier Modify(Transformation transformation)
         {
-            get
-            {
-                return this.initial;
-            }
-
-            set
-            {
-                this.initial = value;
-                this.Calculate();
-            }
-        }
-
-        public Modifiable(T initial = default)
-        {
-            this.Initial = initial;
-            this.Value = initial;
-        }
-
-        public Modifier<T> Modify(Transformer<T> transform)
-        {
-            Modifier<T> modifier = new Modifier<T>(this, transform);
+            Modifier modifier = new Modifier(this, transformation);
             this.modifiers.Add(modifier);
-            this.Calculate();
+            this.Update();
             return modifier;
         }
 
-        public void Destroy(Modifier<T> wrapper)
+        public void Destroy(Modifier wrapper)
         {
             this.modifiers.Remove(wrapper);
-            this.Calculate();
+            this.Update();
         }
 
-        public void Calculate()
+        private void Update()
         {
-            T value = this.Initial;
-            this.modifiers.ForEach(modifier => modifier.Transform(ref value));
+            T value = new T();
+            this.modifiers.ForEach(modifier => modifier.Transformation(ref value));
             this.Value = value;
             this.OnChange?.Invoke();
         }

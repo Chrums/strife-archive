@@ -1,16 +1,14 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using UnityEngine;
 
 namespace Fizz6.Strife
 {
     [RequireComponent(typeof(Unit))]
-    [RequireComponent(typeof(BoardPositionStat))]
+    [RequireComponent(typeof(PositionStat))]
     [RequireComponent(typeof(RangeStat))]
     public class UnitMovementBehavior : MovementBehavior, IUnitBehavior
     {
-        private BoardPositionStat boardPositionStat = null;
+        private PositionStat boardPositionStat = null;
 
         private RangeStat rangeStat = null;
 
@@ -23,7 +21,7 @@ namespace Fizz6.Strife
 
         public override bool Query()
         {
-            return !this.Unit.Board.IsEnemyUnitInRange(this.Unit, this.rangeStat.Current);
+            return base.Query() && !this.Unit.Board.IsEnemyUnitInRange(this.Unit, this.rangeStat.Current);
         }
 
         public override void Activate()
@@ -43,7 +41,7 @@ namespace Fizz6.Strife
         {
             base.Awake();
             this.Unit = this.GetComponent<Unit>();
-            this.boardPositionStat = this.GetComponent<BoardPositionStat>();
+            this.boardPositionStat = this.GetComponent<PositionStat>();
             this.rangeStat = this.GetComponent<RangeStat>();
             this.Unit.transform.position = (Vector2)this.boardPositionStat.Cell;
         }

@@ -1,6 +1,4 @@
 ﻿using Fizz6.Core;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Fizz6.Strife
@@ -18,9 +16,9 @@ namespace Fizz6.Strife
         [SerializeField]
         private float healthRegenerationPerStrength = 1.0f;
 
-        private Modifier<float> healthBaseModifier = null;
+        private Modifiable<float>.Modifier healthBaseModifier = null;
 
-        private Modifier<float> healthRegenerationBaseModifier = null;
+        private Modifiable<float>.Modifier healthRegenerationBaseModifier = null;
 
         public float Value
         {

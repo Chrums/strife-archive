@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 
 namespace Fizz6.Core
 {
-    public class EventManager : EventManager<Event>
+    public class EventManager : EventManager<object>
     {
     }
 

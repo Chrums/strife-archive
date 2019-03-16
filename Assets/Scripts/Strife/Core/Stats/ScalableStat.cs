@@ -1,6 +1,4 @@
 ﻿using Fizz6.Core;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Fizz6.Strife
@@ -68,9 +66,9 @@ namespace Fizz6.Strife
 
         protected override void Awake()
         {
-            this.Base.Initial = this.initialBase;
+            this.Base.Modify((ref float baseValue) => baseValue += this.initialBase);
             this.Base.OnChange += this.OnChange;
-            this.Multiplier.Initial = this.initialMultiplier;
+            this.Multiplier.Modify((ref float multiplierValue) => multiplierValue += this.initialMultiplier);
             this.Multiplier.OnChange += this.OnChange;
             this.Maximum = this.Base * this.Multiplier;
             this.Current = this.Maximum * this.initialPercentage / 100.0f;

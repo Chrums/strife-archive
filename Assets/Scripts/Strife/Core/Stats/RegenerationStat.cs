@@ -1,6 +1,4 @@
 ﻿using Fizz6.Core;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Fizz6.Strife
@@ -38,7 +36,7 @@ namespace Fizz6.Strife
         {
             base.Awake();
             this.ScalableStat = this.GetComponent<T>();
-            this.RegenerationTime.Initial = this.regenerationTime;
+            this.RegenerationTime.Modify((ref float regenerationTime) => regenerationTime += this.regenerationTime);
         }
 
         private void Update()
