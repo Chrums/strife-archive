@@ -1,8 +1,10 @@
-﻿using Fizz6.Core;
-
-namespace Fizz6.Strife
+﻿namespace Fizz6.Strife
 {
-    public interface IUnitStat : IStat, IUnitComponent
+    public interface IUnitStat
     {
+        Unit Unit
+        {
+            get;
+        }
     }
 }

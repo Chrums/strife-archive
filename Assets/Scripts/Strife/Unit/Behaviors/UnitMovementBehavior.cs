@@ -1,65 +1,94 @@
-﻿using System.Linq;
+﻿using System.Collections;
+using System.Collections.Generic;
+using Fizz6.Core;
 using UnityEngine;
+using UnityEngine.AI;
 
 namespace Fizz6.Strife
 {
-    [RequireComponent(typeof(Unit))]
-    [RequireComponent(typeof(PositionStat))]
-    [RequireComponent(typeof(RangeStat))]
-    public class UnitMovementBehavior : MovementBehavior, IUnitBehavior
+    [RequireComponent(typeof(NavMeshAgent))]
+    public class UnitMovementBehavior : UnitBehavior
     {
-        private PositionStat boardPositionStat = null;
+        [SerializeField]
+        private float offset = 0.0f;
 
-        private RangeStat rangeStat = null;
+        private NavMeshAgent navMeshAgent = null;
 
-        public Unit Unit
+        private Vector3? target = null;
+
+        public Vector3? Target
         {
-            get;
-            protected set;
+            get
+            {
+                return this.target;
+            }
+
+            set
+            {
+                this.target = value;
+                if (this.target.HasValue)
+                {
+                    this.navMeshAgent.SetDestination(this.target.Value);
+                }
+                else
+                {
+                    this.navMeshAgent.ResetPath();
+                }
+            }
         }
-        = null;
+
+        protected bool HasArrivedAtTarget
+        {
+            get
+            {
+                return Target.HasValue
+                    ? Vector3.Distance(this.transform.position, this.Target.Value) <= this.offset
+                    : true;
+            }
+        }
 
         public override bool Query()
         {
-            return base.Query() && !this.Unit.Board.IsEnemyUnitInRange(this.Unit, this.rangeStat.Current);
+            return this.Target.HasValue;
         }
 
         public override void Activate()
         {
             base.Activate();
-            this.Target = this.CalculateTarget();
+
             if (!this.Target.HasValue)
             {
                 this.Yield();
                 return;
             }
 
-            this.boardPositionStat.Cell = new Vector2Int((int)this.Target.Value.x, (int)this.Target.Value.y);
+            this.navMeshAgent.isStopped = false;
+        }
+
+        public override void Deactivate()
+        {
+            base.Deactivate();
+
+            this.navMeshAgent.isStopped = true;
+        }
+
+        public override void Pump()
+        {
+            base.Pump();
+
+            if (this.HasArrivedAtTarget)
+            {
+                this.Target = null;
+                this.Yield();
+                return;
+            }
         }
 
         protected override void Awake()
         {
             base.Awake();
-            this.Unit = this.GetComponent<Unit>();
-            this.boardPositionStat = this.GetComponent<PositionStat>();
-            this.rangeStat = this.GetComponent<RangeStat>();
-            this.Unit.transform.position = (Vector2)this.boardPositionStat.Cell;
-        }
 
-        protected virtual Vector2Int? CalculateTarget()
-        {
-            Unit targetUnit = this.Unit.Board.Units
-                .Where(unit => unit.Player != this.Unit.Player)
-                .Aggregate(null, (Unit target, Unit unit) => target == null ? unit : Vector2.Distance(this.Unit.Position.Cell, unit.Position.Cell) < Vector2.Distance(this.Unit.Position.Cell, target.Position.Cell) ? unit : target);
-
-            if (targetUnit)
-            {
-                return this.Unit.Board.GetFurthestAvailableCellInRange(this.Unit.transform.position, targetUnit.transform.position, this.rangeStat.Current);
-            }
-            else
-            {
-                return null;
-            }
+            this.navMeshAgent = this.GetComponent<NavMeshAgent>();
         }
     }
 }
