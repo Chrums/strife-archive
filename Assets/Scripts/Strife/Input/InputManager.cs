@@ -26,6 +26,9 @@ namespace Fizz6.Strife
         {
             base.Awake();
 
+            Rigidbody rigidbody = this.gameObject.AddComponent<Rigidbody>();
+            rigidbody.isKinematic = true;
+
             this.meshCollider = this.gameObject.AddComponent<MeshCollider>();
         }
 
@@ -51,6 +54,12 @@ namespace Fizz6.Strife
                     this.selectedUnits.ForEach(unit => this.Move(unit, raycastHit.point));
                 }
             }
+
+            float x = Input.GetAxis("Horizontal");
+            float y = Input.GetAxis("Vertical");
+
+            this.camera.transform.position = new Vector3(this.camera.transform.position.x + x, this.camera.transform.position.y, this.camera.transform.position.z + y);
+
         }
 
         private void Select()
@@ -76,14 +85,13 @@ namespace Fizz6.Strife
             }
         }
 
-        private void OnCollisionEnter(Collision collision)
+        private void OnTriggerEnter(Collider collider)
         {
-            Debug.Log(collision);
-        }
-
-        private void OnCollisionStay(Collision collision)
-        {
-            Debug.Log(collision);
+            Unit unit = collider.GetComponentInParent<Unit>();
+            if (unit != null)
+            {
+                this.selectedUnits.Add(unit);
+            }
         }
 
         private Mesh GenerateSelectionMesh()
