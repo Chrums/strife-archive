@@ -1,6 +1,7 @@
 ﻿using Fizz6.Core;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace Fizz6.Core
@@ -19,9 +20,9 @@ namespace Fizz6.Core
         [SerializeField]
         private Texture2D selectionTexture = null;
 
-        private Vector2? selectionStart = null;
+        private Vector3? selectionStart = null;
 
-        private Vector2? selectionEnd = null;
+        private Vector3? selectionEnd = null;
 
         private List<Selectable> selectables = new List<Selectable>();
 
@@ -51,12 +52,12 @@ namespace Fizz6.Core
         {
             if (Input.GetMouseButtonDown(this.SelectionMouseButton))
             {
-                this.selectionStart = Input.mousePosition;
-                this.selectionEnd = Input.mousePosition;
+                this.selectionStart = this.camera.ScreenToWorldPoint(Input.mousePosition);
+                this.selectionEnd = this.camera.ScreenToWorldPoint(Input.mousePosition);
             }
             else if (Input.GetMouseButton(this.SelectionMouseButton))
             {
-                this.selectionEnd = Input.mousePosition;
+                this.selectionEnd = this.camera.ScreenToWorldPoint(Input.mousePosition);
             }
             else if (Input.GetMouseButtonUp(this.SelectionMouseButton))
             {
@@ -71,9 +72,12 @@ namespace Fizz6.Core
             List<Selectable> selectables = new List<Selectable>();
             if (this.selectionStart.HasValue && this.selectionEnd.HasValue)
             {
-                if (Vector2.Distance(this.selectionStart.Value, this.selectionEnd.Value) < this.GroupSelectionDragDistance)
+                Vector2 screenStart = this.camera.WorldToScreenPoint(this.selectionStart.Value);
+                Vector2 screenEnd = this.camera.WorldToScreenPoint(this.selectionEnd.Value);
+
+                if (Vector2.Distance(screenStart, screenEnd) < this.GroupSelectionDragDistance)
                 {
-                    Ray ray = this.camera.ScreenPointToRay(this.selectionStart.Value);
+                    Ray ray = this.camera.ScreenPointToRay(screenStart);
                     Physics.Raycast(ray, out RaycastHit hitInfo);
                     if (hitInfo.collider != null)
                     {
@@ -86,8 +90,8 @@ namespace Fizz6.Core
                 }
                 else
                 {
-                    Vector3 viewportStart = this.camera.ScreenToViewportPoint(this.selectionStart.Value);
-                    Vector3 viewportEnd = this.camera.ScreenToViewportPoint(this.selectionEnd.Value);
+                    Vector3 viewportStart = this.camera.ScreenToViewportPoint(screenStart);
+                    Vector3 viewportEnd = this.camera.ScreenToViewportPoint(screenEnd);
                     Vector3 viewportMin = Vector3.Min(viewportStart, viewportEnd);
                     viewportMin.z = this.camera.nearClipPlane;
                     Vector3 viewportMax = Vector3.Max(viewportStart, viewportEnd);
@@ -98,18 +102,17 @@ namespace Fizz6.Core
                     this.selectables.ForEach(
                         (Selectable selectable) =>
                         {
-                            //Collider collider = selectable.GetComponent<Collider>();
-                            //Vector3 colliderMin = collider.bounds.min;
-                            //Vector3 colliderMax = collider.bounds.max;
-                            //Vector3 colliderViewportMin = this.camera.WorldToViewportPoint(colliderMin);
-                            //Vector3 colliderViewportMax = this.camera.WorldToViewportPoint(colliderMax);
-                            //if (viewportBounds.Contains(colliderViewportMin) || viewportBounds.Contains(colliderViewportMax))
-                            //{
-                            //    selectables.Add(selectable);
-                            //}
                             Collider collider = selectable.GetComponent<Collider>();
-                            Vector3 colliderViewportPosition = this.camera.WorldToViewportPoint(collider.bounds.center);
-                            if (viewportBounds.Contains(colliderViewportPosition))
+                            List<Vector3> points = collider.bounds.Points();
+                            bool isSelected = points
+                                .Any(
+                                    (Vector3 point) =>
+                                    {
+                                        Vector3 viewportPosition = this.camera.WorldToViewportPoint(point);
+                                        return viewportBounds.Contains(viewportPosition);
+                                    }
+                                );
+                            if (isSelected)
                             {
                                 selectables.Add(selectable);
                             }
@@ -117,6 +120,7 @@ namespace Fizz6.Core
                     );
                 }
             }
+
             SelectionEvent selectionEvent = new SelectionEvent(selectables);
             EventSystem.Instance.Emit(selectionEvent);
         }
@@ -125,8 +129,10 @@ namespace Fizz6.Core
         {
             if (this.selectionStart.HasValue && this.selectionEnd.HasValue)
             {
-                Vector2 selectionStart = new Vector2(this.selectionStart.Value.x, Screen.height - this.selectionStart.Value.y);
-                Vector2 selectionEnd = new Vector2(this.selectionEnd.Value.x, Screen.height - this.selectionEnd.Value.y);
+                Vector2 screenStart = this.camera.WorldToScreenPoint(this.selectionStart.Value);
+                Vector2 screenEnd = this.camera.WorldToScreenPoint(this.selectionEnd.Value);
+                Vector2 selectionStart = new Vector2(screenStart.x, Screen.height - screenStart.y);
+                Vector2 selectionEnd = new Vector2(screenEnd.x, Screen.height - screenEnd.y);
                 Vector2 leftTop = Vector2.Min(selectionStart, selectionEnd);
                 Vector2 rightBottom = Vector2.Max(selectionStart, selectionEnd);
                 Rect selectionRect = Rect.MinMaxRect(leftTop.x, leftTop.y, rightBottom.x, rightBottom.y);

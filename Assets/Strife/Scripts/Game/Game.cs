@@ -18,25 +18,12 @@ namespace Fizz6.Strife
         protected void Start()
         {
             this.camera = Camera.main;
-            for (int i = 0; i < 100; i++)
+            for (int i = 0; i < 1000; i++)
             {
-                UnitManager.Instance.Add(player, unitPrefab);
+                Unit unit = UnitManager.Instance.Add(player, unitPrefab);
+                unit.transform.position = new Vector3(Random.Range(0.0f, 100.0f), 0.0f, Random.Range(0.0f, 100.0f));
             }
         }
 
-        private void Update()
-        {
-            //if (Input.GetMouseButtonDown(0))
-            //{
-            //    RaycastHit raycastHit;
-            //    Ray ray = this.camera.ScreenPointToRay(Input.mousePosition);
-            //    Physics.Raycast(ray, out raycastHit);
-            //    Unit unit = raycastHit.transform.gameObject.GetComponentInParent<Unit>();
-            //    if (unit != null)
-            //    {
-            //        this.unit = unit;
-            //    }
-            //}
-        }
     }
 }

@@ -19,25 +19,25 @@ namespace Fizz6.Strife
 
         private void Start()
         {
-            Global.Instance.Events.On<SelectionEvent>(this.OnSelectionEvent);
+            EventSystem.Instance.On<SelectionEvent>(this.OnSelectionEvent);
         }
 
         private void OnSelectionEvent(SelectionEvent selectionEvent)
         {
             this.selectedUnits = selectionEvent.Selectables
-                .Aggregate(
-                    new List<Unit>(),
-                    (List<Unit> state, Selectable selectable) =>
+                .Where(
+                    (Selectable selectable) =>
                     {
-                        Unit unit = selectable.gameObject.GetComponent<Unit>();
-                        if (unit != null && unit.Player == this)
-                        {
-                            state.Add(unit);
-                        }
-                        return state;
+                        Unit unit = selectable.GetComponent<Unit>();
+                        return unit != null && unit.Player == this;
                     }
-                );
-            Debug.Log(selectedUnits.Count);
+                )
+                .Select(
+                    (Selectable selectable) =>
+                    {
+                        return selectable.GetComponent<Unit>();
+                    }
+                ).ToList();
         }
 
         private void Update()
