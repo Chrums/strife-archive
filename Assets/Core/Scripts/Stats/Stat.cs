@@ -10,5 +10,10 @@ namespace Fizz6.Core
             base.Awake();
             this.Manager.Add(this as D);
         }
+
+        protected virtual void OnDestroy()
+        {
+            this.Manager.Remove(this as D);
+        }
     }
 }

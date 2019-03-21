@@ -14,7 +14,7 @@ namespace Fizz6.Core
         }
         = null;
 
-        public void Register(PriorityBehavior priorityBehavior)
+        public void Add(PriorityBehavior priorityBehavior)
         {
             if (this.priorityBehaviors.ContainsKey(priorityBehavior.Priority))
             {
@@ -22,7 +22,15 @@ namespace Fizz6.Core
                 return;
             }
 
-            this.priorityBehaviors[priorityBehavior.Priority] = priorityBehavior;
+            this.priorityBehaviors.Add(priorityBehavior.Priority, priorityBehavior);
+        }
+
+        public void Remove(PriorityBehavior priorityBehavior)
+        {
+            if (this.priorityBehaviors.ContainsKey(priorityBehavior.Priority))
+            {
+                this.priorityBehaviors.Remove(priorityBehavior.Priority);
+            }
         }
 
         public void Yield(PriorityBehavior priorityBehavior)

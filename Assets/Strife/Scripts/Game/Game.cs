@@ -7,8 +7,7 @@ namespace Fizz6.Strife
 {
     public class Game : Singleton<Game>
     {
-        [SerializeField]
-        private Camera camera = null;
+        private new Camera camera = null;
 
         [SerializeField]
         private Player player = null;
@@ -16,11 +15,10 @@ namespace Fizz6.Strife
         [SerializeField]
         private GameObject unitPrefab = null;
 
-        private Unit unit = null;
-
         protected void Start()
         {
-            for (int i = 0; i < 10; i++)
+            this.camera = Camera.main;
+            for (int i = 0; i < 100; i++)
             {
                 UnitManager.Instance.Add(player, unitPrefab);
             }
@@ -37,21 +35,6 @@ namespace Fizz6.Strife
             //    if (unit != null)
             //    {
             //        this.unit = unit;
-            //    }
-            //}
-
-            //if (Input.GetMouseButtonDown(1))
-            //{
-            //    RaycastHit raycastHit;
-            //    Ray ray = this.camera.ScreenPointToRay(Input.mousePosition);
-            //    Physics.Raycast(ray, out raycastHit);
-            //    if (this.unit != null)
-            //    {
-            //        UnitMovementBehavior unitMovementBehavior = this.unit.GetComponent<UnitMovementBehavior>();
-            //        if (unitMovementBehavior != null)
-            //        {
-            //            unitMovementBehavior.Target = raycastHit.point;
-            //        }
             //    }
             //}
         }

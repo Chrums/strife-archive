@@ -61,7 +61,12 @@ namespace Fizz6.Core
         protected virtual void Awake()
         {
             this.priorityBehaviorManager = this.GetComponent<PriorityBehaviorManager>();
-            this.priorityBehaviorManager.Register(this);
+            this.priorityBehaviorManager.Add(this);
+        }
+
+        protected virtual void OnDestroy()
+        {
+            this.priorityBehaviorManager.Remove(this);
         }
     }
 }
