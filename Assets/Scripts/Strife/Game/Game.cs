@@ -22,7 +22,11 @@ namespace Fizz6.Strife
         {
             for (int i = 0; i < 10; i++)
             {
-                UnitManager.Instance.Add(player, unitPrefab);
+                Unit cunit = UnitManager.Instance.Add(player, unitPrefab);
+                if (i == 0)
+                {
+                    camera.gameObject.GetComponent<FogOfWar>().player = cunit.transform;
+                }
             }
         }
 
