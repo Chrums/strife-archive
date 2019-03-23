@@ -5,7 +5,7 @@ namespace Fizz6.Strife
 {
     [RequireComponent(typeof(PriorityBehaviorManager))]
     [RequireComponent(typeof(StatManager))]
-    public class Unit : MonoBehaviour
+    public class Unit : Selectable
     {
         public Player Player
         {
@@ -33,8 +33,9 @@ namespace Fizz6.Strife
             this.Player = player;
         }
 
-        protected virtual void Awake()
+        protected override void Awake()
         {
+            base.Awake();
             this.Behaviors = this.GetComponent<PriorityBehaviorManager>();
             this.Stats = this.GetComponent<StatManager>();
         }

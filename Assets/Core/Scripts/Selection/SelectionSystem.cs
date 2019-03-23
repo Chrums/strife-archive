@@ -72,12 +72,11 @@ namespace Fizz6.Core
             List<Selectable> selectables = new List<Selectable>();
             if (this.selectionStart.HasValue && this.selectionEnd.HasValue)
             {
-                Vector2 screenStart = this.camera.WorldToScreenPoint(this.selectionStart.Value);
-                Vector2 screenEnd = this.camera.WorldToScreenPoint(this.selectionEnd.Value);
-
-                if (Vector2.Distance(screenStart, screenEnd) < this.GroupSelectionDragDistance)
+                Vector3 viewportStart = this.camera.WorldToViewportPoint(this.selectionStart.Value);
+                Vector3 viewportEnd = this.camera.WorldToViewportPoint(this.selectionEnd.Value);
+                if (Vector2.Distance(viewportStart, viewportEnd) < this.GroupSelectionDragDistance)
                 {
-                    Ray ray = this.camera.ScreenPointToRay(screenStart);
+                    Ray ray = this.camera.ViewportPointToRay(viewportStart);
                     Physics.Raycast(ray, out RaycastHit hitInfo);
                     if (hitInfo.collider != null)
                     {
@@ -90,8 +89,6 @@ namespace Fizz6.Core
                 }
                 else
                 {
-                    Vector3 viewportStart = this.camera.ScreenToViewportPoint(screenStart);
-                    Vector3 viewportEnd = this.camera.ScreenToViewportPoint(screenEnd);
                     Vector3 viewportMin = Vector3.Min(viewportStart, viewportEnd);
                     viewportMin.z = this.camera.nearClipPlane;
                     Vector3 viewportMax = Vector3.Max(viewportStart, viewportEnd);

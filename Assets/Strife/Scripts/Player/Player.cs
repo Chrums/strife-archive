@@ -37,7 +37,8 @@ namespace Fizz6.Strife
                     {
                         return selectable.GetComponent<Unit>();
                     }
-                ).ToList();
+                )
+                .ToList();
         }
 
         private void Update()

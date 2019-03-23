@@ -45,9 +45,9 @@ namespace Fizz6.Core
                     : Input.mousePosition.y > Screen.height - this.mouseScrollSize
                         ? 1.0f
                         : 0.0f;
-            this.Acceleration = new Vector3(horizontal, 0.0f, vertical) * this.acceleration * Time.deltaTime;
+            this.Acceleration = new Vector3(horizontal, 0.0f, vertical).normalized * this.acceleration * Time.deltaTime;
             this.Velocity += this.Acceleration;
-            this.transform.position += this.Velocity;
+            this.transform.position += Quaternion.AngleAxis(this.transform.rotation.eulerAngles.y, Vector3.up) * this.Velocity;
             this.Velocity *= this.deceleration;
         }
     }
