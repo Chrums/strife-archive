@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Fizz6.Strife
 {
-    public class UnitManager : Singleton<UnitManager>
+    public class UnitSystem : Singleton<UnitSystem>
     {
         public List<Unit> Units
         {
