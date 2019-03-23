@@ -18,10 +18,10 @@ namespace Fizz6.Strife
         protected void Start()
         {
             this.camera = Camera.main;
-            for (int i = 0; i < 1000; i++)
+            for (int i = 0; i < 100; i++)
             {
-                Unit unit = UnitManager.Instance.Add(player, unitPrefab);
-                unit.transform.position = new Vector3(Random.Range(0.0f, 100.0f), 0.0f, Random.Range(0.0f, 100.0f));
+                Unit unit = UnitSystem.Instance.Add(player, unitPrefab);
+                unit.transform.position = new Vector3(Random.Range(0.0f, 10.0f), 0.0f, Random.Range(0.0f, 10.0f));
             }
         }
 
